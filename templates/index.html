@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 40px;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      width: 350px;
+      margin: auto;
+      border-radius: 8px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+    }
+    .error {
+      color: red;
+      font-size: 13px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: gray;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+<form id="regForm">
+  <h2>Register</h2>
+
+  <input type="text" id="username" placeholder="Username">
+  <div class="error" id="userError"></div>
+
+  <input type="email" id="email" placeholder="Email">
+  <div class="error" id="emailError"></div>
+
+  <input type="text" id="phone" placeholder="Phone Number">
+  <div class="error" id="phoneError"></div>
+
+  <input type="password" id="password" placeholder="Password">
+  <div class="error" id="passError"></div>
+
+  <button type="submit" id="submitBtn" disabled>Submit</button>
+</form>
+
+<script>
+  const username = document.getElementById("username");
+  const email = document.getElementById("email");
+  const phone = document.getElementById("phone");
+  const password = document.getElementById("password");
+  const submitBtn = document.getElementById("submitBtn");
+
+  const userError = document.getElementById("userError");
+  const emailError = document.getElementById("emailError");
+  const phoneError = document.getElementById("phoneError");
+  const passError = document.getElementById("passError");
+
+  function validateForm() {
+    let valid = true;
+
+    // Username length
+    if (username.value.length < 5) {
+      userError.textContent = "Username must be at least 5 characters";
+      valid = false;
+    } else {
+      userError.textContent = "";
+    }
+
+    // Gmail only
+    if (!email.value.endsWith("@gmail.com")) {
+      emailError.textContent = "Email must end with @gmail.com";
+      valid = false;
+    } else {
+      emailError.textContent = "";
+    }
+
+    // Phone digits only
+    if (!/^\d+$/.test(phone.value)) {
+      phoneError.textContent = "Phone number must contain digits only";
+      valid = false;
+    } else {
+      phoneError.textContent = "";
+    }
+
+    // Password strength
+    const passRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{6,}$/;
+    if (!passRegex.test(password.value)) {
+      passError.textContent =
+        "Password must include letter, number & symbol";
+      valid = false;
+    } else {
+      passError.textContent = "";
+    }
+
+    submitBtn.disabled = !valid;
+  }
+
+  username.addEventListener("input", validateForm);
+  email.addEventListener("input", validateForm);
+  phone.addEventListener("input", validateForm);
+  password.addEventListener("input", validateForm);
+
+  document.getElementById("regForm").addEventListener("submit", e => {
+    e.preventDefault();
+    alert("Registration Successful!");
+  });
+</script>
+
+</body>
+</html>
